@@ -5,6 +5,7 @@ let env:any = {
     mainURL: "https://example.com",
     domain: "example.com",
 
+    tokenExpiration: '1d',
     salt: "boilerplate web app by thomas gainant",
 
     dbType: 'postgres',
