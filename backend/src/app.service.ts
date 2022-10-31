@@ -1,18 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as dayjs from 'dayjs';
 import { Repository } from 'typeorm';
-import { Example } from './data/example.entity';
-import { User } from './data/user.entity';
+import { Example } from './entity/example.entity';
+import { User } from './users/entity/user.entity';
 import { env } from './environment';
+import { registrationCleanupRoutine } from './routines/registrationcleanup.routine';
+import { encrypt } from './utils';
 
 @Injectable()
 export class AppService {
+  registrationCleanupRoutine:any;
+
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
     @InjectRepository(Example)
     private exampleRepository: Repository<Example>
   ){
+    this.registrationCleanupRoutine = setInterval(() => { registrationCleanupRoutine(userRepository); }, env.registrationCleanupRoutineFrequency);
+
     if(!env.production){
       this.clearData();
       this.addMockData();
@@ -32,8 +39,10 @@ export class AppService {
 
   public async addMockData(){
     let user = new User();
+    user.email = "admin@example.com";
     user.name = "admin";
-    user.password = "admin";
+    user.password = encrypt("admin");
+    user.confirmDate = dayjs().unix();
     await this.userRepository.save(user);
   }
 }

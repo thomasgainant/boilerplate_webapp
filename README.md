@@ -8,6 +8,8 @@ Simply fork this project to have a working web application project on which you 
 
 Tech stack : NestJS 8 + RxJS 7.2 + TypeORM 0.3 + Passport 0.6 + PostgreSQL
 
+Other notable modules: dayjs 1.11, nodemailer 6.8, uuid 9.0.0, crypto module
+
 Created on Typescript 4.3 but works fine on 4.x
 
 Thought so the DB runs in a Docker container. Be careful with the port configuration as they have to be correctly mapped on your container.
@@ -16,9 +18,15 @@ Run the app using `npm run start`
 
 ### Configuration
 
-- Change the DB connection data in the environment.ts file under /src (user, password, port, database...)
-- Change the driver in this environment.ts file to another DBMS if needed, TypeORM handles a lot of different ones (MySQL, MariaDB, SQLite, Mongo, etc...)
+Configuring your app is mostly made through changes inside the environment.ts file under /src:
+
+- Change the DB connection data (user, password, port, database...)
+- Change the driver to another DBMS if needed, using the `dbType` property. TypeORM handles a lot of different ones (MySQL, MariaDB, SQLite, Mongo, etc...).
 - Change the length of the validity of your authentication token if needed, using the `tokenExpiration` property. Outside of this expiration range, logged in users will have to log again for authentication.
+- Change your SMTP email server data in order to be able to get users registered (your app must be able to send emails with a confirmation link).
+
+### Implementation
+
 - Create a new entity in the src/data folder by copying the example.entity.ts file and renaming its content accordingly. This is used by the TypeORM repository to map an object to a database structure (happens at the start of the app) and vice versa (when using a Repository directly in a Service's code).
 - Create a new domain/functionality using this new entity by using the nest command `nest g resource [domainname]`. This will generate a new folder with a controller mapping generic CRUD endpoints in the API and a service in which your business logic on your entity should happen. Use the entities you created in the src/data.
 - Create mock data by populating the `addMockData()` method inside the app.service.ts file. There is already, for instance, an example user "admin".
@@ -36,6 +44,18 @@ An endpoint is implemented so you can send your user login information in order 
 You will receive a token which is to be saved on the frontend part and sent as a Bearer token, in the header of every request in which authenticating a user is needed. The token is by default valid for one day (see configuration).
 
 You can then secure your application by adding the correct decorators on the endpoint where authentication is needed, just like on the example `/user` endpoint defined in the app.controller.ts file. What does your endpoint do with your authenticated user is up to you to be implemented. If your endpoint is inside a distinct module, don't forget to add the AuthModule to the imports of your module, just like in the default AppModule.
+
+### User registration
+
+Two endpoints are offered for user registration:
+
+/register will create an unconfirmed user when it receives the correct data scheme, as described in the createUserDto.ts. It will then send a confirmation link to the user's email address.
+
+/confirm will be used for confirming the user registration. This endpoint needs a confirmation key which has been sent to the user via email when he asked for registration.
+
+For users asking for registration but never confirming it, there is a cleanup routine which deletes all the users who stayed unconfirmed for too long. This period before expiration of the unconfirmed registration is configurable inside the environment.ts file at the `registrationExpiration` property.
+
+Don't forget to configure your SMTP data, the registration expiration date and the frequency of the cleanup routine in the environment.ts file in order to make everything work good.
 
 ### Docs
 

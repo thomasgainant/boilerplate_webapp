@@ -6,8 +6,20 @@ export class User {
   id: number;
 
   @Column()
+  email: string;
+
+  @Column()
   name: string;
 
   @Column()
   password: string;
+
+  @Column({
+      nullable: true
+  })
+  confirmKey:string;
+  @Column({
+      type: "int"
+  })
+  confirmDate:number;
 }
