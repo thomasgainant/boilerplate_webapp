@@ -1,0 +1,9 @@
+<h2>Register</h2>
+<ul *ngIf="form && errors.length"><li *ngFor="let error of errors">{{ error }}</li></ul>
+<form [formGroup]="form" (submit)="submitRegisterForm()">
+  <input formControlName="email" type="email"/>
+  <input formControlName="login" type="text"/>
+  <input formControlName="password" type="password"/>
+  <input formControlName="confirmPassword" type="password"/>
+  <input type="submit"/>
+</form>

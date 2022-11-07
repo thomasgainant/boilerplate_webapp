@@ -91,12 +91,12 @@ export class UsersService {
                 });
               }
               catch(e){
-                console.error("No message sent to "+newUser.email+" during registration!");
+                console.error("Error: no message sent to "+newUser.email+" during registration!");
                 throw new HttpException('Error in registration.', HttpStatus.INTERNAL_SERVER_ERROR);
               }
 
               if(!info.messageId){
-                console.error("No message sent to "+newUser.email+" during registration!");
+                console.error("Error: no message sent to "+newUser.email+" during registration!");
                 throw new HttpException('Error in registration.', HttpStatus.INTERNAL_SERVER_ERROR);
               }
               else{

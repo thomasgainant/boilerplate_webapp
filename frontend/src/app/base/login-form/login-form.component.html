@@ -1,0 +1,12 @@
+<div *ngIf="authed">
+  <button (click)="clickLogoutButton()">Log out</button>
+</div>
+<div *ngIf="authed === false">
+  <h2>Log in</h2>
+  <ul *ngIf="form && errors.length"><li *ngFor="let error of errors">{{ error }}</li></ul>
+  <form [formGroup]="form" (submit)="submitLoginForm()">
+    <input formControlName="login" type="text"/>
+    <input formControlName="password" type="password"/>
+    <input type="submit"/>
+  </form>
+</div>
