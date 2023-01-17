@@ -24,6 +24,7 @@ Configuring your app is mostly made through changes inside the environment.ts fi
 - Change the driver to another DBMS if needed, using the `dbType` property. TypeORM handles a lot of different ones (MySQL, MariaDB, SQLite, Mongo, etc...).
 - Change the length of the validity of your authentication token if needed, using the `tokenExpiration` property. Outside of this expiration range, logged in users will have to log again for authentication.
 - Change your SMTP email server data in order to be able to get users registered (your app must be able to send emails with a confirmation link).
+- Change the private key `symmetricalEncryption_key` used for symmetric encryption (must be 32 letters long for the default algorithm)
 
 ### Implementation
 

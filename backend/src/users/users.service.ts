@@ -1,3 +1,4 @@
+import * as crypto from 'crypto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { v4 as uuid } from 'uuid';
@@ -71,6 +72,7 @@ export class UsersService {
               newUser.password = encrypt(createUserDto.password);
               newUser.confirmKey = uuid();
               newUser.confirmDate = dayjs().add(env.registrationExpiration, 'minutes').unix();
+              newUser.currentCredits = env.userStartCredits;
               newUser = await this.userRepository.save(newUser);
     
               let emailConfirmationLink = `${env.mainURL}/confirm/${newUser.name}/${newUser.confirmKey}`;

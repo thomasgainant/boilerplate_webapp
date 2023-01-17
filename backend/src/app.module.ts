@@ -8,6 +8,8 @@ import { UsersModule } from './users/users.module';
 import { env } from './environment';
 import { User } from './users/entity/user.entity';
 import { ExampleModule } from './example/example.module';
+import { ExampleTwoEntity } from './example/entities/exampleTwo.entity';
+import { ExampleThreeEntity } from './example/entities/exampleThree.entity';
 
 @Module({
   imports: [
@@ -19,9 +21,9 @@ import { ExampleModule } from './example/example.module';
       password: env.dbPassword,
       database: env.dbDatabase,
       entities: ["dist/**/*.entity{.ts,.js}"],
-      synchronize: true,
+      synchronize: env.production ? false : true,
     }),
-    TypeOrmModule.forFeature([ User, ExampleEntity ]),
+    TypeOrmModule.forFeature([ User, ExampleEntity, ExampleTwoEntity, ExampleThreeEntity ]),
     AuthModule,
     UsersModule,
     ExampleModule

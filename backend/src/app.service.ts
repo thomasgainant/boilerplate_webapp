@@ -7,7 +7,6 @@ import { User } from './users/entity/user.entity';
 import { env } from './environment';
 import { registrationCleanupRoutine } from './routines/registrationcleanup.routine';
 import { encrypt } from './utils';
-import { initialize } from 'passport';
 
 @Injectable()
 export class AppService {
@@ -43,12 +42,6 @@ export class AppService {
   }
 
   public async clearData(){
-    /*
-    +Add base routing on frontend with example page
-    +Add example one-to-one and one-to-many/many-to-one relationships in example entity on the backend
-    +Change initialization into an async function to be sure clearData and addMockData are on await
-    +Frontend save user in authstore after login form submit
-    */
     console.log("======");
     console.log("Clearing database data...");
 
@@ -70,6 +63,7 @@ export class AppService {
     user.name = "admin";
     user.password = encrypt("admin");
     user.confirmDate = dayjs().unix();
+    user.currentCredits = 10;
     await this.userRepository.save(user);
 
     console.log("Done adding mock data.");

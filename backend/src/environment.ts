@@ -6,11 +6,14 @@ let env:any = {
     domain: "example.com",
 
     userNameFormat: new RegExp(/^[A-Za-z0-9]{3,}$/),
+    userStartCredits: 0,
     registrationExpiration: 60, //In minutes
     registrationCleanupRoutineFrequency: 30000, //In milliseconds
 
     tokenExpiration: '1d',
-    salt: "boilerplate web app by thomas gainant",
+    asymmetricalEncryption_key: "boilerplate web app by thomas gainant",
+    symmetricEncryption_algorithm: 'aes-256-cbc',
+    symmetricEncryption_key: new TextEncoder().encode("32bytes..works!:Youshouldchange!"),
 
     dbType: 'postgres',
     dbHost: 'localhost',
