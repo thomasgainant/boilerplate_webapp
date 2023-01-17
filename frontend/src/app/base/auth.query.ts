@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Query } from "src/data/query";
+import { User } from "src/data/user.entity";
 import { AuthState, AuthStore } from "./auth.store";
 
 @Injectable({
@@ -15,6 +16,12 @@ export class AuthQuery extends Query<AuthState>{
 
     this.authed$ = this.select("authed");
     this.accessToken$ = this.select("accessToken");
+  }
+
+  saveUser(user:User){
+    this.authStore.update({
+      user: user
+    });
   }
 
   saveToken(token:string | undefined){

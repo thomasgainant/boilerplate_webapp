@@ -2,24 +2,37 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { LoginFormComponent } from './base/login-form/login-form.component';
 import { AuthInterceptor } from './base/auth.interceptor';
 import { RegisterFormComponent } from './base/register-form/register-form.component';
+import { ExamplePageComponent } from './content/example-page/example-page.component';
+import { ExamplePageTwoComponent } from './example-page-two/example-page-two.component';
+
+const routes: Routes = [
+  { path: '', component: ExamplePageComponent },
+  { path: 'example', component: ExamplePageComponent },
+  { path: 'example-2', component: ExamplePageTwoComponent },
+];
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginFormComponent,
-    RegisterFormComponent
+    RegisterFormComponent,
+    ExamplePageComponent,
+    ExamplePageTwoComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
+  exports: [ RouterModule ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

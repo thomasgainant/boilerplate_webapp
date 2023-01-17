@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { AuthQuery } from '../auth.query';
 import { catchError, throwError } from 'rxjs';
+import { User } from 'src/data/user.entity';
 
 @Component({
   selector: 'login-form',
@@ -35,6 +36,10 @@ export class LoginFormComponent implements OnInit {
       }).pipe(
         catchError(this.handleError.bind(this))
       ).subscribe((data:any) => {
+        let user = new User();
+        user.email = this.form.get('login')?.value;
+
+        this.authQuery.saveUser(user);
         this.authQuery.saveToken(data.access_token);
       });
     }
