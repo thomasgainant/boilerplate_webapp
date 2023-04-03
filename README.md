@@ -6,7 +6,7 @@ Simply fork this project to have a working web application project on which you 
 
 ## Backend
 
-Tech stack : NestJS 8 + RxJS 7.2 + TypeORM 0.3 + Passport 0.6 + PostgreSQL
+Tech stack : NestJS 9 + RxJS 7.2 + TypeORM 0.3 + Passport 0.6 + PostgreSQL
 
 Other notable modules: dayjs 1.11, nodemailer 6.8, uuid 9.0.0, crypto module
 

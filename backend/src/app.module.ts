@@ -1,4 +1,6 @@
+import { join } from 'path';
 import { Module } from '@nestjs/common';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -10,9 +12,14 @@ import { User } from './users/entity/user.entity';
 import { ExampleModule } from './example/example.module';
 import { ExampleTwoEntity } from './example/entities/exampleTwo.entity';
 import { ExampleThreeEntity } from './example/entities/exampleThree.entity';
+import { AdminController } from './admin/admin.controller';
+import { AdminService } from './admin/admin.service';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, 'admin', 'views', 'static'),
+    }),
     TypeOrmModule.forRoot({
       type: env.dbType,
       host: env.dbHost,
@@ -28,7 +35,7 @@ import { ExampleThreeEntity } from './example/entities/exampleThree.entity';
     UsersModule,
     ExampleModule
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, AdminController],
+  providers: [AppService, AdminService],
 })
 export class AppModule {}

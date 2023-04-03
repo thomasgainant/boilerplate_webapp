@@ -1,0 +1,11 @@
+doctype html
+html
+  head
+    title= appName+" - Administration dashboard"
+    link(rel="stylesheet" href='/style.css')
+    script(src="/d3.min.js")
+    script(src="/d3.barchart.js")
+  body
+    div(id="header")
+        h1= appName+" - Administration dashboard"
+        include menu.pug
