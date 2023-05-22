@@ -1,6 +1,7 @@
 import * as crypto from 'crypto';
 import { CryptedString, decrypt_symmetric, encrypt_symmetric } from "src/utils";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { UserActivity } from './user-activity.entity';
 
 @Entity()
 export class User {
@@ -28,6 +29,17 @@ export class User {
   })
   confirmDate:number;
 
+  @Column({
+    type: "int",
+    default: 0
+  })
+  role:User.Role;
+
+  @OneToMany(() => UserActivity, (child) => child.parent, {
+    cascade: true
+  })
+  activity:UserActivity[];
+
   @Column()
   private credits: string;
   public set currentCredits(value: number) {
@@ -39,5 +51,14 @@ export class User {
 
   constructor(){
     this.publicKey = crypto.randomBytes(8).toString('hex');
+  }
+}
+
+export namespace User{
+  export enum Role{
+    UNCONFIRMED,
+    NORMAL,
+    ADMIN,
+    BANNED
   }
 }

@@ -28,11 +28,35 @@ a:hover{
     color: #babadd;
 }
 
+table{
+    width: 100%;
+}
+    table thead{
+        text-align: left;
+
+        background-color: #a3a3c1;
+    }
+
+    table tbody{
+
+    }
+        table tbody tr{
+            background-color: #d3d3d3;
+            color: #1e1e2e;
+        }
+        table tbody tr:nth-of-type(2n){
+            background-color: #b4b4b4;
+            color: #1e1e2e;
+        }
+
 #header{
     flex-grow: 0;
 
     background-color: #2e2e3e;
 }
+    #header nav a{
+        margin: 6px;
+    }
 
 #content{
     flex-grow: 1;

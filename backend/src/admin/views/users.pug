@@ -1,5 +1,5 @@
 include header.pug
-div(id="content")
+div#content
     include user.dashboard.pug
     table
         thead
@@ -8,15 +8,13 @@ div(id="content")
                 th Name
                 th Email
                 th Credits
-            tr
-        thead
         tbody
-            each user in users
+            each u in users
                 tr
-                    td user.id
-                    td
-                    td
-                    td
+                    td= u.id
+                    td= u.name
+                    td= u.email
+                    td= u.credits
+            else
                 tr
-        tbody
-    table
+                    td(colspan="4") No users in the database

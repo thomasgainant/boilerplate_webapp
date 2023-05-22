@@ -5,6 +5,7 @@ import { v4 as uuid } from 'uuid';
 import * as dayjs from 'dayjs';
 import * as nodemailer from 'nodemailer';
 import { User } from 'src/users/entity/user.entity';
+import { UserActivity } from './entity/user-activity.entity';
 import { env } from 'src/environment';
 import { EmailFormat, encrypt } from 'src/utils';
 import { Repository } from 'typeorm';
@@ -16,7 +17,9 @@ export class UsersService {
 
     constructor(
     @InjectRepository(User)
-    private userRepository: Repository<User>
+    private userRepository: Repository<User>,
+    @InjectRepository(UserActivity)
+    private userActivityRepository: Repository<UserActivity>,
     ){
         this.emailTransporter = nodemailer.createTransport({
             host: env.smtpHost,
@@ -119,7 +122,9 @@ export class UsersService {
           if(user.confirmKey === confirmKey){
             user.confirmKey = null;
             user.confirmDate = dayjs().unix();
+            user.role = User.Role.NORMAL;
             await this.userRepository.save(user);
+            await this.logActivity(user, "CONFIRM", confirmKey);            
             return user;
           }
           else{
@@ -137,5 +142,18 @@ export class UsersService {
                 name: login
             }
         });
+    }
+
+    public async logActivity(user:User, activityType:string, comment:string, when:dayjs.Dayjs = dayjs()){
+      let activity = new UserActivity();
+      activity.type = activityType;
+      activity.comment = comment;
+      activity.createDate = when.unix();
+      await this.userActivityRepository.save(activity);
+
+      if(!user.activity)
+        user.activity = [];
+      user.activity.push(activity);
+      await this.userRepository.save(user);
     }
 }

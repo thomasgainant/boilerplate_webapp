@@ -7,6 +7,7 @@ import { User } from './users/entity/user.entity';
 import { env } from './environment';
 import { registrationCleanupRoutine } from './routines/registrationcleanup.routine';
 import { encrypt } from './utils';
+import { UsersService } from './users/users.service';
 
 @Injectable()
 export class AppService {
@@ -14,6 +15,7 @@ export class AppService {
   registrationCleanupRoutineCleared:boolean = true;
 
   constructor(
+    private userService:UsersService,
     @InjectRepository(User)
     private userRepository: Repository<User>,
     @InjectRepository(ExampleEntity)
@@ -63,8 +65,45 @@ export class AppService {
     user.name = "admin";
     user.password = encrypt("admin");
     user.confirmDate = dayjs().unix();
+    user.role = User.Role.ADMIN;
     user.currentCredits = 10;
-    await this.userRepository.save(user);
+    user = await this.userRepository.save(user);
+
+    await this.userService.logActivity(user, "LOGIN", "");
+
+    user = new User();
+    user.email = "molipolo@example.com";
+    user.name = "molipolo";
+    user.password = encrypt("test");
+    user.confirmDate = dayjs().unix();
+    user.role = User.Role.NORMAL;
+    user.currentCredits = 0;
+    user = await this.userRepository.save(user);
+
+    await this.userService.logActivity(user, "LOGIN", "", dayjs().subtract(1, "days"));
+    await this.userService.logActivity(user, "LOGIN", "");
+
+    user = new User();
+    user.email = "hotborris@example.com";
+    user.name = "hotborris";
+    user.password = encrypt("test");
+    user.confirmDate = dayjs().unix();
+    user.role = User.Role.NORMAL;
+    user.currentCredits = 0;
+    user = await this.userRepository.save(user);
+
+    await this.userService.logActivity(user, "LOGIN", "", dayjs().subtract(10, "days"));
+    await this.userService.logActivity(user, "LOGIN", "", dayjs().subtract(2, "days"));
+    await this.userService.logActivity(user, "LOGIN", "", dayjs().subtract(1, "days"));
+    await this.userService.logActivity(user, "LOGIN", "");
+
+    user = new User();
+    user.email = "arturus69000@example.com";
+    user.name = "arturus";
+    user.password = encrypt("test");
+    user.confirmDate = dayjs().unix();
+    user.currentCredits = 0;
+    user = await this.userRepository.save(user);
 
     console.log("Done adding mock data.");
     console.log("======");

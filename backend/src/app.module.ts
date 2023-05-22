@@ -12,8 +12,8 @@ import { User } from './users/entity/user.entity';
 import { ExampleModule } from './example/example.module';
 import { ExampleTwoEntity } from './example/entities/exampleTwo.entity';
 import { ExampleThreeEntity } from './example/entities/exampleThree.entity';
-import { AdminController } from './admin/admin.controller';
-import { AdminService } from './admin/admin.service';
+import { UserActivity } from './users/entity/user-activity.entity';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -30,12 +30,13 @@ import { AdminService } from './admin/admin.service';
       entities: ["dist/**/*.entity{.ts,.js}"],
       synchronize: env.production ? false : true,
     }),
-    TypeOrmModule.forFeature([ User, ExampleEntity, ExampleTwoEntity, ExampleThreeEntity ]),
+    TypeOrmModule.forFeature([ User, UserActivity, ExampleEntity, ExampleTwoEntity, ExampleThreeEntity ]),
     AuthModule,
     UsersModule,
-    ExampleModule
+    ExampleModule,
+    AdminModule
   ],
-  controllers: [AppController, AdminController],
-  providers: [AppService, AdminService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

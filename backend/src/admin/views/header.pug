@@ -5,7 +5,10 @@ html
     link(rel="stylesheet" href='/style.css')
     script(src="/d3.min.js")
     script(src="/d3.barchart.js")
+    script(src="/dayjs.min.js")
+    include variables.pug
+
   body
-    div(id="header")
+    div#header
         h1= appName+" - Administration dashboard"
         include menu.pug
