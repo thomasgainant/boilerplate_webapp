@@ -8,12 +8,18 @@ import { ExampleEntity } from './example/entities/example.entity';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { env } from './environment';
+
+import { AdminModule } from './admin/admin.module';
+import { PaymentModule } from './payment/payment.module';
+
 import { User } from './users/entity/user.entity';
+import { UserActivity } from './users/entity/user-activity.entity';
+import { Payment } from './payment/entity/payment.entity';
+import { Product } from './product/entity/product.entity';
 import { ExampleModule } from './example/example.module';
 import { ExampleTwoEntity } from './example/entities/exampleTwo.entity';
 import { ExampleThreeEntity } from './example/entities/exampleThree.entity';
-import { UserActivity } from './users/entity/user-activity.entity';
-import { AdminModule } from './admin/admin.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -30,11 +36,13 @@ import { AdminModule } from './admin/admin.module';
       entities: ["dist/**/*.entity{.ts,.js}"],
       synchronize: env.production ? false : true,
     }),
-    TypeOrmModule.forFeature([ User, UserActivity, ExampleEntity, ExampleTwoEntity, ExampleThreeEntity ]),
+    TypeOrmModule.forFeature([ User, UserActivity, Payment, Product, ExampleEntity, ExampleTwoEntity, ExampleThreeEntity ]),
     AuthModule,
     UsersModule,
     ExampleModule,
-    AdminModule
+    AdminModule,
+    PaymentModule,
+    ProductModule
   ],
   controllers: [AppController],
   providers: [AppService],

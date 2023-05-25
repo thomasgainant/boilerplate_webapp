@@ -25,6 +25,9 @@ Configuring your app is mostly made through changes inside the environment.ts fi
 - Change the length of the validity of your authentication token if needed, using the `tokenExpiration` property. Outside of this expiration range, logged in users will have to log again for authentication.
 - Change your SMTP email server data in order to be able to get users registered (your app must be able to send emails with a confirmation link).
 - Change the private key `symmetricalEncryption_key` used for symmetric encryption (must be 32 letters long for the default algorithm)
+- Give your Stripe secret key in the `paymentSecretKey` property
+- Give your Stripe webhook secret key in the `paymentFeedbackEndpointSecret` property
+- Change the redirection URLs from Stripe to the frontend when a payment was successfully processed or failed, using the property `paymentSuccessURL` and `paymentCancelURL`
 
 ### Implementation
 
@@ -57,6 +60,16 @@ Two endpoints are offered for user registration:
 For users asking for registration but never confirming it, there is a cleanup routine which deletes all the users who stayed unconfirmed for too long. This period before expiration of the unconfirmed registration is configurable inside the environment.ts file at the `registrationExpiration` property.
 
 Don't forget to configure your SMTP data, the registration expiration date and the frequency of the cleanup routine in the environment.ts file in order to make everything work good.
+
+### Product purchase
+
+It is possible to have a basic cashflow in your app through the use of Stripe. Two endpoints are used to enable this:
+
+/payment/:productId will start a purchase for a product with the given id. This endpoint will give the url to redirect the client to, directly to a Stripe checkout form.
+
+/payment/feedback is used by Stripe to send feedback from the events happening during the purchase (for instance, a payment has been processed or failed). You have to configure a webhook correctly (giving the right URL to this endpoint, the events you want to observe, etc.) inside the Stripe dashboard, which will take care of this feedback.
+
+Your Stripe account need to be configued and you need to give its provided keys inside your environment.ts file.
 
 ### Docs
 

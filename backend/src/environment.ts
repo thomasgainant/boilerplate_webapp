@@ -25,7 +25,13 @@ let env:any = {
     smtpHost: "smtp.example.com",
     smtpPort: 587,
     smtpUser: "test",
-    smtpPassword: "test"
+    smtpPassword: "test",
+
+    paymentSecretKey: '',
+    paymentFeedbackEndpointSecret: '',
+    paymentApiVersion: "2022-11-15",
+    paymentSuccessURL: "http://localhost:4200/payment/success",
+    paymentCancelURL: "http://localhost:4200/payment/cancelled",
 };
 
 export { env };

@@ -1,0 +1,21 @@
+include header.pug
+div#content
+    table
+        thead
+            tr
+                th #
+                th Name
+                th Description
+                th Price
+                th Price ID
+        tbody
+            each p in products
+                tr
+                    td= p.id
+                    td= p.name
+                    td= p.description
+                    td= p.price
+                    td= p.payment_priceId
+            else
+                tr
+                    td(colspan="5") No products in the database

@@ -1,0 +1,26 @@
+include header.pug
+div#content
+    table
+        thead
+            tr
+                th #
+                th User
+                th Product
+                th Amount
+                th Session ID
+                th Date
+                th Status
+        tbody
+            each p in payments
+                - var status = p.status == 3 ? "FAILED" : p.status == 2 ? "PAID" : p.status == 1 ? "AWAITING" : "CREATED";
+                tr
+                    td= p.id
+                    td= "#" + p.parent.id + " - " + p.parent.name
+                    td= "#" + p.product.id + " - " + p.product.name
+                    td= p.amount
+                    td= p.payment_sessionId
+                    td= dayjs(p.createDate * 1000).format("DD/MM/YYYY HH:mm:ss")
+                    td= status
+            else
+                tr
+                    td(colspan="7") No payments in the database

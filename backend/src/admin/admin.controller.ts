@@ -32,4 +32,24 @@ export class AdminController {
             users: await this.adminService.findAllUsers()
         };
     }
+
+    @UseGuards(AuthGuard('jwt'), IsAdminGuard)
+    @Get("/payments")
+    @Render('payments.pug')
+    async renderPayments() {
+        return {
+            appName: env.appName,
+            payments: await this.adminService.findAllPayments()
+        };
+    }
+
+    @UseGuards(AuthGuard('jwt'), IsAdminGuard)
+    @Get("/products")
+    @Render('products.pug')
+    async renderProducts() {
+        return {
+            appName: env.appName,
+            products: await this.adminService.findAllProducts()
+        };
+    }
 }

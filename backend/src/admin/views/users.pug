@@ -8,13 +8,16 @@ div#content
                 th Name
                 th Email
                 th Credits
+                th Role
         tbody
             each u in users
+                - var role = u.role == 3 ? "BANNED" : u.role == 2 ? "ADMIN" : u.role == 1 ? "NORMAL" : "UNCONFIRMED";
                 tr
                     td= u.id
                     td= u.name
                     td= u.email
                     td= u.credits
+                    td= role
             else
                 tr
-                    td(colspan="4") No users in the database
+                    td(colspan="5") No users in the database

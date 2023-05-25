@@ -4,6 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserActivity } from 'src/users/entity/user-activity.entity';
 import { User } from 'src/users/entity/user.entity';
+import { Payment } from 'src/payment/entity/payment.entity';
+import { Product } from 'src/product/entity/product.entity';
 
 @Injectable()
 export class AdminService {
@@ -11,7 +13,11 @@ export class AdminService {
         @InjectRepository(User)
         private userRepository: Repository<User>,
         @InjectRepository(UserActivity)
-        private userActivityRepository: Repository<UserActivity>
+        private userActivityRepository: Repository<UserActivity>,
+        @InjectRepository(Payment)
+        private paymentRepository: Repository<Payment>,
+        @InjectRepository(Product)
+        private productRepository: Repository<Product>
     ){
 
     }
@@ -55,5 +61,15 @@ export class AdminService {
 
     async findAllUsers():Promise<User[]>{
         return await this.userRepository.find();
+    }
+
+    async findAllPayments():Promise<Payment[]>{
+        return await this.paymentRepository.find({
+            relations: [ "parent", "product" ]
+        });
+    }
+
+    async findAllProducts():Promise<Product[]>{
+        return await this.productRepository.find();
     }
 }

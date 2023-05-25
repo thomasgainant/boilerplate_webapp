@@ -1,0 +1,8 @@
+<div class="products">
+  <div *ngFor="let product of products" class="product">
+    <h2>{{ product.name }}</h2>
+    <div>{{ product.description }}</div>
+    <div>{{ product.price }}€</div>
+    <a [href]="'/product/'+product.id">Buy</a>
+  </div>
+</div>

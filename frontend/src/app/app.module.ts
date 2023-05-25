@@ -9,12 +9,16 @@ import { LoginFormComponent } from './base/login-form/login-form.component';
 import { AuthInterceptor } from './base/auth.interceptor';
 import { RegisterFormComponent } from './base/register-form/register-form.component';
 import { ExamplePageComponent } from './content/example-page/example-page.component';
-import { ExamplePageTwoComponent } from './example-page-two/example-page-two.component';
+import { ExamplePageTwoComponent } from './content/example-page-two/example-page-two.component';
+import { ExampleProductsPageComponent } from './content/example-products-page/example-products-page.component';
+import { ExampleProductPageComponent } from './content/example-product-page/example-product-page.component';
 
 const routes: Routes = [
   { path: '', component: ExamplePageComponent },
   { path: 'example', component: ExamplePageComponent },
   { path: 'example-2', component: ExamplePageTwoComponent },
+  { path: 'products', component: ExampleProductsPageComponent },
+  { path: 'product/:id', component: ExampleProductPageComponent },
 ];
 
 @NgModule({
@@ -23,7 +27,9 @@ const routes: Routes = [
     LoginFormComponent,
     RegisterFormComponent,
     ExamplePageComponent,
-    ExamplePageTwoComponent
+    ExamplePageTwoComponent,
+    ExampleProductsPageComponent,
+    ExampleProductPageComponent
   ],
   imports: [
     BrowserModule,
